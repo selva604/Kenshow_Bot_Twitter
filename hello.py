@@ -1,3 +1,11 @@
+"""
+検索オプション
+    min_retweets:1000   リツイート数
+    since:2017-10-12    ツイートの日付
+    filter:images       画像つき
+    filter:links        リンクがある
+"""
+
 import tweepy
 import traceback
 
