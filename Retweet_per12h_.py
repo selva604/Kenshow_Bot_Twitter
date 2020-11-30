@@ -35,11 +35,11 @@ def make_words():
 
 def get_API():
 
-    CONSUMER_KEY        = 'xH91alHP35UtPzXw2uiKZkvwa'
-    CONSUMER_SECRET_KEY = 'xIZNU469iEuUxD35IHndURywvRc9RWPmCLDN77T7zAIUJMNHJU'
-    ACCESS_TOKEN        = '2647079249-4wwsTArYfnujdO9Nkxqy7BMgVf2zmkOGr52lOH6'
-    ACCESS_TOKEN_SECRET = 'MLZNeKZvLrssaJYxSsOPgi5MVcWavRqOrqbGcT9S830vx'
-    SCREEN_NAME         = 'Selva0604'
+    CONSUMER_KEY        = ''
+    CONSUMER_SECRET_KEY = ''
+    ACCESS_TOKEN        = ''
+    ACCESS_TOKEN_SECRET = ''
+    SCREEN_NAME         = ''
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY,CONSUMER_SECRET_KEY)
     auth.set_access_token(ACCESS_TOKEN,ACCESS_TOKEN_SECRET)
