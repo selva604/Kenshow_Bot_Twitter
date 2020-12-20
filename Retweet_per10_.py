@@ -11,84 +11,29 @@
 """
 
 import datetime
-import time
-import tweepy
-import traceback
+
+import API_
+import Kenshow_
 
 def make_words():
     dt = datetime.datetime.now()
     dt1 = str(dt.month)+"/"+str(dt.day)
-    date = str(dt.month)+"月"+str(dt.day)+"日"
     word = []
-    w2 = []
-    w3 = []
-    w4 = []
-    for i in [500,1000]:
-        w3.append("フォロー "+"min_retweets:"+str(i))
-        word.append(dt1+" フォロー "+"min_retweets:"+str(i))
-        w2.append("応募"+" min_retweets:"+str(i))
-        w4.append(date+" フォロー "+" min_retweets:"+str(i))
-    return word,w2,w3,w4
-
-def get_API():
-    CONSUMER_KEY        = 'xH91alHP35UtPzXw2uiKZkvwa'
-    CONSUMER_SECRET_KEY = 'xIZNU469iEuUxD35IHndURywvRc9RWPmCLDN77T7zAIUJMNHJU'
-    ACCESS_TOKEN        = '2647079249-4wwsTArYfnujdO9Nkxqy7BMgVf2zmkOGr52lOH6'
-    ACCESS_TOKEN_SECRET = 'MLZNeKZvLrssaJYxSsOPgi5MVcWavRqOrqbGcT9S830vx'
-    SCREEN_NAME         = 'Selva0604'
-
-    auth = tweepy.OAuthHandler(CONSUMER_KEY,CONSUMER_SECRET_KEY)
-    auth.set_access_token(ACCESS_TOKEN,ACCESS_TOKEN_SECRET)
-
-    api = tweepy.API(auth)
-
-    return api
-
-def search(w1,api):
     
-    for i in w1:
-        for status in api.search(q = i,count=30,result_type="mixed"): #recent,popular,mixed
-            tweet_id = status.id #Tweetのidを取得
-            user_id = status.user._json['id'] #ユーザーのidを取得
-            
-            try:
-                api.retweet(tweet_id)# リツイート実行
-                api.create_friendship(user_id) #フォローする
-                #api.create_favorite(tweet_id) #ファボする
-
-            except:
-                #traceback.print_exc()
-                continue
-
-#PROたちのツイートをリツイート
-def retweet_PROs(api):
-    list_ID=["kensyou_matome","kensho_twit","potitto_tousen"]
-
-    for id in list_ID:
-        results = api.user_timeline(screen_name=id, count=20)
-        for status in results:
-            tweet_id = status.id #Tweetのidを取得
-            user_id = status.user._json['id'] #ユーザーのidを取得
-            
-            try:
-                api.retweet(tweet_id)# リツイート実行
-                api.create_friendship(user_id) #フォローする
-                #api.create_favorite(tweet_id) #ファボする
-
-            except:
-                #traceback.print_exc()
-                continue
-
+    for i in [500,1000]:
+        word.append("フォロー "+"min_retweets:"+str(i))
+        word.append(dt1+" フォロー "+"min_retweets:"+str(i))
+        word.append("応募"+" min_retweets:"+str(i))
+        word.append("懸賞"+" min_retweets:"+str(i))
+    return word
+        
 if __name__ == "__main__":
     
-    t = time.time()
-    w1,w2,w3,w4 = make_words()
-    api = get_API()
-
-    search(w1,api)
-    search(w2,api)    
-    search(w3,api)
-    search(w4,api)
-    #retweet_PROs(api)
+    word_list = make_words()
+    #print(word_list)
     
-    print(time.time()-t)
+    Ga_api = API_.Gapo_API()
+    Se_api = API_.Selva_API()
+
+    Kenshow_.search(word_list,Ga_api,5)
+    Kenshow_.search(word_list,Se_api,5)

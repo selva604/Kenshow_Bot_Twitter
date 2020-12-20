@@ -11,82 +11,66 @@
 """
 
 import datetime
-import time
-import tweepy
-import traceback
+from datetime import date,timedelta
+
+import API_
+import Kenshow_
 
 #検索ワード作成
 def make_words():
     dt = datetime.datetime.now()
-    dt = str(dt.month)+"/"+str(dt.day)
+    date = str(dt.month)+"/"+str(dt.day)
 
     word = []
-    w2 = []
-    w3=[]
-    w4 = []
-    w5 = []
-    for i in [1500,2500,5000]:
-        word.append(dt+" フォロー "+" min_retweets:"+str(i))
-        w2.append("応募"+" min_retweets:"+str(i))
-        w3.append("プレゼント"+" min_retweets:"+str(i))
-        w4.append("フォロー "+" min_retweets:"+str(i))
-        w5.append("懸賞"+" min_retweets:"+str(i))
-    return word,w2,w3,w4,w5
-
-def get_API():
-
-    CONSUMER_KEY        = 'xH91alHP35UtPzXw2uiKZkvwa'
-    CONSUMER_SECRET_KEY = 'xIZNU469iEuUxD35IHndURywvRc9RWPmCLDN77T7zAIUJMNHJU'
-    ACCESS_TOKEN        = '2647079249-4wwsTArYfnujdO9Nkxqy7BMgVf2zmkOGr52lOH6'
-    ACCESS_TOKEN_SECRET = 'MLZNeKZvLrssaJYxSsOPgi5MVcWavRqOrqbGcT9S830vx'
-    SCREEN_NAME         = 'Selva0604'
-
-    auth = tweepy.OAuthHandler(CONSUMER_KEY,CONSUMER_SECRET_KEY)
-    auth.set_access_token(ACCESS_TOKEN,ACCESS_TOKEN_SECRET)
-
-    api = tweepy.API(auth)
-
-    return api
-
-#探してリツイート
-def search(w1,api):
-
-    #総リツイート数
-    c=0
     
-    for i in w1:
-        print(i)
-        if c > 300:
-            break
-        for status in api.search(q = i,count=20,result_type="mixed"): #recent,popular,mixed
-            if c > 300:
-                break
-            tweet_id = status.id #Tweetのidを取得
-            user_id = status.user._json['id'] #ユーザーのidを取得
-            
-            try:
-                api.retweet(tweet_id)# リツイート実行
-                api.create_friendship(user_id) #フォローする
-                #api.create_favorite(tweet_id) #ファボする
-                c+=1
+    #現時刻
+    time = dt.hour
 
-            except:
-                #traceback.print_exc()
-                continue
+    #時間帯によって検索日付を変える
+    if time == 0:
     
-    print("リツイート:{}".format(c))
+        #基準日
+        d = datetime.date(dt.year,dt.month,dt.day)
 
+        #7~b日前 
+        before_7days = d - timedelta(days = 1)*7
+        u = d - timedelta(days = 1)*6
+
+        w = []
+        w.append("フォロー min_retweets:1000 until:"+str(u)+" since:"+str(before_7days))
+        
+        if dt.month == 12:
+            month = 1
+        else:
+            month = dt.month + 1
+        Ga_api = API_.Gapo_API()
+        w1 = Kenshow_.gather_Tweet_day(Ga_api,w,month,dt.day)
+        print(len(w1))
+        Kenshow_.csv_write(w1)
+
+
+    for i in [1500,3000]:
+        word.append(date+" フォロー "+" min_retweets:"+str(i))
+        word.append("フォロー "+" min_retweets:"+str(i))
+        word.append("懸賞 "+" min_retweets:"+str(i))
+        
+    return word
 
 if __name__ == "__main__":
     
-    t = time.time()
-    w1,w2,w3,w4,w5 = make_words()
-    api = get_API()
-    search(w1,api)
-    search(w2,api)
-    search(w3,api)
-    search(w4,api)
-    search(w5,api)
+    word_list = make_words()
+    Ga_api = API_.Gapo_API()
+    Se_api = API_.Selva_API()
+    
+    Kenshow_.search(word_list,Se_api,5)
+    Kenshow_.search(word_list,Ga_api,5)
+    #Kenshow_.retweet_PROs(Se_api,5)
+
+    w = Kenshow_.retweet_CSV(Ga_api)
+    w = Kenshow_.retweet_CSV(Se_api)
+
+    if len(w)>=1:
+        Kenshow_.csv_write(w)
     
 
-    print(time.time()-t)
+    
