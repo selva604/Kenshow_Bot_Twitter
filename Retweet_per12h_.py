@@ -26,11 +26,19 @@ def make_words():
     #現時刻
     time = dt.hour
 
+<<<<<<< HEAD
     #時間帯によって検索日付を変える
     if time == 0:
     
         #基準日
         d = datetime.date(dt.year,dt.month,dt.day)
+=======
+    CONSUMER_KEY        = ''
+    CONSUMER_SECRET_KEY = ''
+    ACCESS_TOKEN        = ''
+    ACCESS_TOKEN_SECRET = ''
+    SCREEN_NAME         = ''
+>>>>>>> origin/main
 
         #7~b日前 
         before_7days = d - timedelta(days = 1)*7
@@ -73,4 +81,8 @@ if __name__ == "__main__":
         Kenshow_.csv_write(w)
     
 
+<<<<<<< HEAD
     
+=======
+    print(time.time()-t)
+>>>>>>> origin/main
