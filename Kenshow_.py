@@ -197,34 +197,4 @@ def csv_write(tweets_data,path,mode_ = "w"):
     except:
         print("error")
 
-if __name__=="__main__":
-    dt = datetime.datetime.now()
-    if 1 in [12,17,2]:
-        print(dt)
-    t1 ="2021年3/1 24:0124/44 5.51"
-    t2 = '4 3/2 しめきり　４・２55/5'
-    
-    a = '([0-9]{1,2})/([0-9]{1,2})'
-    # date_list  = re.findall(a,t2)
-    # print(date_list)
-    # c = []
-    # for j in [t1,t2]:
-    #     if str(dt.year) in j:
-    #         a = '[0-9]年([0-9]{1,2})/([0-9]{1,2})'
-    #     else:
-    #         a = '([0-9]{1,2})/([0-9]{1,2})'
-    #     date_list  = re.findall(a,j)
-    #     for i in date_list:
-    #         print(i)
-    #         if int(i[0]) == 3 and int(i[1]) < 2:
-    #             print(j)
-    #             break
-
-    #     else:
-    #         c.append(j)
-    #         continue
-    # print(c)
-            
-    
-
 
