@@ -25,7 +25,7 @@ def get_API(CONSUMER_KEY,CONSUMER_SECRET_KEY,ACCESS_TOKEN,ACCESS_TOKEN_SECRET):
 
     return tweepy.API(auth,wait_on_rate_limit=True)
 
-def Selva_API():
+def _API():
 
     CONSUMER_KEY        = ''
     CONSUMER_SECRET_KEY = ''
