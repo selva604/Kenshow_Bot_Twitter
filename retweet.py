@@ -19,23 +19,12 @@ def make_word():
         w1 = "フォロー min_retweets:500"
         w2 = str(d.month)+"月"+str(d.day)+"日 フォロー min_retweets:400"
 
-        print(w)
-        G = API_.Gapo_API()
-        twitter_list = Kenshow_.gather_Tweet_day(G,w,0)
-        print(len(twitter_list))
-
-        S = API_.Selva_API()
-        #twitter_list1 = Kenshow_.gather_Tweet_day(S,w1,0)
+        a = API_._API()
+        twitter_list = Kenshow_.gather_Tweet_day(a,w,0)
         
-        A = API_.Admiral_API()
-        twitter_list2 = Kenshow_.gather_Tweet_day(A,w2,1)
-        print(len(twitter_list2))
-
-        for i in [G,S,A]:
+        for i in [a]:
             path = i.SCREEN_NAME
             Kenshow_.csv_write(twitter_list,path,"w")
-            Kenshow_.csv_write(twitter_list2,path,"a")
-            #Kenshow_.csv_write(twitter_list1,path,"a")
 
     if 40 <= time:
         word = "フォロー min_retweets:1000"
@@ -49,13 +38,11 @@ def save(w,path):
 
 if __name__ == "__main__":
 
-    Ga_api = API_.Gapo_API()
-    Se_api = API_.Selva_API()
-    Ad_api = API_.Admiral_API()
+    _api = API_.__API()
 
     w = make_word()
 
-    for i in [Se_api,Ad_api,Ga_api]:
+    for i in [_api]:
         if i.mode == 0:
             Kenshow_.rm_follow(i,5)
             continue
@@ -70,7 +57,4 @@ if __name__ == "__main__":
             elif i.mode == 2:
                 #Kenshow_.retweet_PROs(i,10-i.count)
                 print("a")
-            
-    # Kenshow_.search(w,Ad_api,3)
-    # Kenshow_.search(w,Ga_api,3)
-    # Kenshow_.search(w,Se_api,3)
+        
